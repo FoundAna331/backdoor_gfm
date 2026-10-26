@@ -1,26 +1,4 @@
-"""
-Per-dataset downstream fine-tuning protocol (the three headline metrics).
 
-For ONE test dataset and ONE random split:
-
-  1. CLEAN fine-tune      : fit on the clean training split.
-  2. BACKDOORED fine-tune : fit on the same split, but `ft_poison_rate` of the
-                            training nodes (true label != y*) get a trained trigger
-                            attached and are relabelled to the attacker's class y*.
-  Metrics
-     clean_acc_clean       acc. of (1) on clean held-out test nodes
-     clean_acc_backdoored  acc. of (2) on clean held-out test nodes
-     asr                   (2) on test nodes whose true label != y*, trigger attached:
-                           fraction predicted y*
-     asr_clean_ft          same measurement on (1): how much the trigger already
-                           transfers through the pretrained encoder alone
-     asr_after_defense     asr of (2) after the configured defense purifies the
-                           triggered graph (== asr when defense = none)
-
-Two fine-tuning modes (cfg.eval.finetune_mode):
-  probe : frozen encoder, linear head          (cheap; any graph size)
-  full  : encoder + head updated on a deep copy of the victim model
-"""
 from __future__ import annotations
 
 import copy

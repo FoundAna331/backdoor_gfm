@@ -1,38 +1,4 @@
-"""
-Step 7 — bake the optimised triggers into the PRETRAINED encoder (paper Sec 6.7).
 
-What was missing
------------------
-`run_sib2()` trained trigger perturbations against the *frozen* victim encoder
-(steps 1-6: target/host selection, spectrum, joint-loss PGD) but never updated
-the encoder itself. Every downstream number therefore only measured how well a
-trigger optimised against frozen weights happens to transfer through a
-fine-tuning stage the attacker never touched (`asr_clean_ft`-style transfer),
-with the *encoder* never carrying the backdoor. This module adds the missing
-step: it fine-tunes the (already-pretrained) encoder so that
-
-    * a trigger-poisoned pretraining node is embedded near a fixed, attacker-
-      chosen anchor direction in representation space ("L_bd"), and
-    * clean pretraining nodes keep the embeddings they had before implantation
-      ("L_keep", distillation against a frozen snapshot of the pre-implant
-      model -- this is the utility-preservation term), optionally plus the
-      model's own self-supervised pretraining loss.
-
-This directly targets what the fine-tuning protocol in eval/finetune.py
-measures: it fits a *linear* probe/head on top of (frozen or lightly
-fine-tuned) embeddings, so if triggered-node embeddings sit in a fixed,
-separable region of representation space independent of which downstream
-label set is being probed, a linear head trained on ANY of the four
-fine-tuning datasets recovers that region from its own few triggered training
-examples -- the backdoor becomes a property of the encoder, not of the
-particular trigger-optimisation run.
-
-The anchor is a *representation-space target*, derived only from already
--computed attack artifacts (e_y*, the orthogonal-subspace U_k); nothing here
-touches how ASR is measured (eval/finetune.py is unchanged) and nothing
-inspects the evaluation datasets, so the reported ASR, CAD, etc. remain
-genuine measurements of this (now actually backdoored) encoder.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass

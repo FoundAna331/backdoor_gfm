@@ -1,8 +1,4 @@
-"""
-Prune defense: remove edges whose endpoint features have low cosine similarity
-(the simple edge-similarity purification used as a weak baseline in Gfm-Ba).
-Low-similarity edges are the classic signature of a spatial/structural trigger.
-"""
+
 from __future__ import annotations
 
 from .base import Defense, DefenseReport

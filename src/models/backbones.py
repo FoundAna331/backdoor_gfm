@@ -1,11 +1,4 @@
-"""
-GNN backbones shared by all three GFMs (GCOPE lists gcn/gat/fagcn/bwgnn as
-backbone options; we implement gcn/gat/fagcn).
 
-Each backbone's `forward(x, edge_index, layer_tokens=None)` accepts an optional
-list of per-layer additive bias vectors. SAMGPT injects its *structure tokens*
-through exactly this hook, so the same backbone serves every model.
-"""
 from __future__ import annotations
 
 

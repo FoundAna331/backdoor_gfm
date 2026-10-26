@@ -1,11 +1,4 @@
-"""
-Evaluation metrics (paper Section 9.1):
-  ASR   — fraction of triggered nodes predicted as y*
-  ACC   — clean accuracy of the (backdoored) model
-  CAD   — clean-accuracy drop vs a clean model
-  ASR drop after fine-tuning — persistence (Prop 3)
-  measured R_spec — trigger high-frequency energy ratio vs defense threshold (Prop 2)
-"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field

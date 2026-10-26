@@ -1,18 +1,4 @@
-"""
-Feature alignment to a common dimension.
 
-All three target foundation models align per-domain node features to a shared
-dimension before combining domains:
-  * GCOPE  — projects/ aligns features, then connects domains with coordinators.
-  * SAMGPT — "aligns the feature distributions from multiple source domains
-              following previous work" before adding structure tokens.
-  * GFT    — encodes all domains through a shared encoder over a common input.
-
-We implement the standard SVD projection (used across this line of work): each
-domain's feature matrix X_d in R^{N_d x F_d} is mapped to R^{N_d x d} by taking
-the top-d right singular vectors of X_d. `pca` additionally mean-centers; `pad`
-is a trivial truncate/zero-pad fallback for debugging.
-"""
 from __future__ import annotations
 
 

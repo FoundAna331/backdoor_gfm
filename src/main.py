@@ -1,20 +1,3 @@
-"""
-SIB2-Backdoor — main entry point.
-
-Usage examples:
-  python -m src.main --model gcope --defense tcf
-  python -m src.main --config configs/model_samgpt.yaml --gpus 0 1
-  python -m src.main --model gft --use-node-to-node-influence false --top-k-targets 5
-  python -m src.main --ablation all --model gcope
-
-Pipeline per run:
-  1. configure GPUs + seed, print all settings (instr. 7, 8)
-  2. report dataset availability (instr. 2)
-  3. build multi-domain pretraining graph (train datasets) per model's method (instr. 1)
-  4. build + pretrain the chosen victim GFM (one model at a time, instr. 1)
-  5. run the SIB2 attack on GPU (instr. 3, 6)
-  6. evaluate ASR / clean-ACC on each test dataset, optionally under a defense (instr. 5)
-"""
 from __future__ import annotations
 
 import argparse

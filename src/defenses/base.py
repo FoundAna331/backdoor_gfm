@@ -1,8 +1,4 @@
-"""
-Defense interface. A defense takes the (possibly triggered) graph and returns a
-purified graph plus a report dict. Defenses are applied ONE AT A TIME
-(instruction 5): the runner selects a single defense per evaluation.
-"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field

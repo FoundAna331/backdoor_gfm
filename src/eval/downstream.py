@@ -1,14 +1,4 @@
-"""
-Downstream evaluation head.
 
-The attacker has no downstream labels (threat model, Section 1), but *evaluation*
-simulates a victim who fine-tunes/probes the (poisoned) encoder on a downstream
-task. We train a simple linear probe on frozen encoder embeddings of the clean
-test graph, then measure:
-  * Clean ACC  on clean test nodes
-  * ASR        on trigger-injected test nodes (prediction == y*)
-and, for persistence (Prop 3), the same after a few steps of encoder fine-tuning.
-"""
 from __future__ import annotations
 
 

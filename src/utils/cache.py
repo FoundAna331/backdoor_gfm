@@ -1,28 +1,4 @@
-"""
-Disk cache for the expensive, *deterministic* stages of a run.
 
-What is cached (and why it cannot change the attack's outcome)
---------------------------------------------------------------
-kind="pretrain"  the pretrained victim-GFM weights (state_dict).
-                 Pretraining happens BEFORE the attack and never sees the attack
-                 config, so one checkpoint is valid for every attack variant,
-                 defense, and ablation that shares the same model/data/seed.
-kind="attack"    (a) the influence-based target selection and
-                 (b) the finished result of each attacked target (optimised
-                     trigger features, host edges, loss history).
-                 Each entry is keyed on EVERYTHING it depends on (model-weight
-                 fingerprint, graph fingerprint, seed, the relevant config, the
-                 target id), so a changed setting simply misses the cache and is
-                 recomputed. Per-target entries are written the moment a target
-                 finishes, which lets an interrupted / crashed run resume.
-
-Everything is keyed by content hashes; nothing is ever matched by file name alone.
-Cache problems (unwritable dir, corrupt file, version mismatch) never abort a run:
-they degrade to "recompute".
-
-Disable with `--no-cache` (or runtime.use_cache=false). Delete the cache directory
-(default ./cache) to start fresh. Bump CACHE_VERSION when code semantics change.
-"""
 from __future__ import annotations
 
 import dataclasses

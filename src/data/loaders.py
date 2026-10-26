@@ -1,13 +1,4 @@
-"""
-Concrete dataset loaders. Each returns a single normalized PyG `Data` with:
-    x          [N, F]   float
-    edge_index [2, E]   long (undirected if cfg.data.undirected)
-    y          [N]      long  (class ids, -1 for unlabeled)
-    domain     str      the dataset key (used by the multi-domain combiner)
 
-Loaders import torch / torch_geometric lazily so that unit tests covering the
-pure-math parts of the attack can run without the heavy deep-learning stack.
-"""
 from __future__ import annotations
 
 import os

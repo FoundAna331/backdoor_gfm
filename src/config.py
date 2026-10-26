@@ -1,13 +1,4 @@
-"""
-Configuration system for SIB2-Backdoor.
 
-A single dataclass tree holds every knob. Precedence (low -> high):
-    dataclass defaults  <  YAML file  <  command-line overrides
-
-This keeps experiments reproducible: the fully-resolved config is printed at
-the start of every run (see utils.logging_utils.print_settings) and dumped to
-the run directory.
-"""
 from __future__ import annotations
 
 import argparse

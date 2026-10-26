@@ -1,17 +1,4 @@
-"""
-Step 2 — Spectral trigger construction / low-frequency anchoring (Section 3).
 
-  * Laplacian eigendecomposition L = U Lambda U^T of the target's k-hop
-    neighbourhood (Section 3.2), built SPARSELY on the real (non-virtual) nodes.
-    Dense GPU eigh up to `eig_max_nodes`; the neighbourhood is capped at
-    `max_subgraph_nodes`; truncated sparse solvers are an opt-in fallback.
-    All shown with a PROGRESS BAR (instruction 6).
-  * R_spec(delta) = [ sum_{l>n-m} c_l^2 lambda_l ] / [ sum_l c_l^2 lambda_l ],
-    c_l = u_l^T delta  (Section 3.2). The differentiable spectral-stealth penalty.
-  * low-pass projection onto span(u_1..u_{n-m}) (hard constraint, Section 3.3):
-    project delta after each gradient step (spectral PGD).
-  * Parseval identity delta^T L delta == sum_l c_l^2 lambda_l (verified in tests).
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass

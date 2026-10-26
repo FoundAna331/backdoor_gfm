@@ -1,10 +1,4 @@
-"""
-End-to-end pipeline used by both single runs and ablations.
 
-Kept import-light at module load: heavy deps (torch/PyG) are imported inside
-functions so `--help`, config building, and unit tests stay fast and importable
-without the full DL stack.
-"""
 from __future__ import annotations
 
 from typing import List

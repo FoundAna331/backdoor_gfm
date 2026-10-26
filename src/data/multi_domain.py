@@ -1,35 +1,4 @@
-"""
-Combine multiple domains into one pretraining object, per each model's *original*
-method (instruction 1).
 
-Shared first step (all three): align every domain's features to `align_dim`
-(feature_align.align_features), then build a batched multi-domain graph.
-
-Model-specific combination:
-  * GCOPE : add `num_coordinators_per_domain` virtual "coordinator" nodes per
-            domain; connect every real node of a domain to that domain's
-            coordinator(s), and connect all coordinators to each other. This is
-            GCOPE's "unify isolated source datasets into one large-scale dataset
-            with inter-dataset connections". Coordinator node features are
-            learnable (initialised to the domain feature mean here; the learnable
-            table lives in models/gcope.py).
-  * SAMGPT: keep domains as disjoint components (block-diagonal), and attach a
-            `domain_id` per node. Structure alignment happens *inside* the encoder
-            via per-domain structure tokens (models/samgpt.py), not by adding
-            edges. We therefore only batch + tag domains here.
-  * GFT   : same disjoint batched graph with `domain_id`; GFT's cross-domain
-            unification is the shared tree-vocabulary / VQ in the encoder
-            (models/gft.py), so no extra edges are added at the data level.
-
-Output: a container with
-    x           [Ntot, align_dim]
-    edge_index  [2, Etot]
-    y           [Ntot]
-    domain_id   [Ntot]            integer domain index
-    domain_names list[str]
-    is_coordinator [Ntot] bool    (GCOPE only; all False otherwise)
-    node_offsets list[int]        start index of each domain's real nodes
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field

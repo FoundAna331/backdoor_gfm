@@ -1,9 +1,4 @@
-"""Progress-bar helper.
 
-Instruction (6): the Laplacian eigendecomposition is slow, so it must show a
-progress bar. We wrap tqdm but degrade gracefully to a no-op iterator if tqdm
-is unavailable, so the code never hard-depends on it.
-"""
 from __future__ import annotations
 
 from typing import Iterable, Optional

@@ -1,11 +1,4 @@
-"""
-Experiment-settings printer.
 
-Instruction (7): print *all* experimental settings applied when performing the
-attack. We render the fully-resolved config as a readable banner and also mark
-the knobs that most affect the three SIB2 mechanisms so they are easy to eyeball
-in logs.
-"""
 from __future__ import annotations
 
 import json

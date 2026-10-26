@@ -1,20 +1,4 @@
-"""
-Device management.
 
-Instruction (8): run the attack on GPU, with options to select multiple GPUs.
-
-Strategy:
-  * `configure_gpus([0,1])` sets CUDA_VISIBLE_DEVICES before heavy CUDA init so
-    the process only ever sees the requested cards.
-  * `primary_device()` returns the device the trigger optimisation / influence
-    computation runs on (cuda:0 within the visible set, else CPU).
-  * `maybe_data_parallel(module)` wraps an nn.Module in DataParallel when more
-    than one GPU is visible, so pretraining / covariance passes use all of them.
-
-The eigendecomposition and iHVP solves are kept on a single device on purpose:
-they are latency-bound linear-algebra routines, not throughput-bound, and
-sharding them across cards only adds transfer overhead.
-"""
 from __future__ import annotations
 
 import os

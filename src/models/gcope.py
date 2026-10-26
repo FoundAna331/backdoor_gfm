@@ -1,16 +1,4 @@
-"""
-GCOPE victim encoder (KDD'24, cshhzhao/GCOPE).
 
-Distinctive mechanism: domain-specific virtual *coordinator* nodes unify the
-isolated source datasets into one connected graph; pretraining uses a
-contrastive objective plus a reconstruction term (default recon weight 0.2).
-
-Here the coordinator *edges* are created in data/multi_domain.py; this module
-owns the learnable coordinator *features* and the pretraining objective.
-
-# >>> OFFICIAL-REPO HOOK: swap `self.backbone` and `pretrain_loss` for the exact
-#     GCOPE GNN + loss from src/ of the official repo to reproduce paper numbers.
-"""
 from __future__ import annotations
 
 from .base import BaseGFM

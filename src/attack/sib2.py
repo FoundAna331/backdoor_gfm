@@ -1,17 +1,4 @@
-"""
-SIB2-Backdoor orchestrator — the end-to-end attack (paper Section 6).
 
-Pipeline:
-  1. (curvature)   build the damped Fisher/G-N operator (influence.py)
-  2. (hosts)       self-influence cap -> stealth-eligible set C          (Sec 2.3)
-  3. (targets)     TOP-K influence-propagation selection within C        (Sec 2.4, instr.3)
-  4. (subspace)    pretraining-cov top-k U_k                              (Sec 4.2)
-  5. (spectrum)    k-hop Laplacian eig of each target (progress bar)     (Sec 3.2, instr.6)
-  6. (optimise)    projected gradient descent on the joint loss          (Sec 5.4)
-  7. (inject)      bake triggers into the pretraining corpus             (Sec 6.7)
-
-Returns an AttackArtifacts bundle consumed by eval/defenses.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field

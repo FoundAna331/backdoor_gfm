@@ -1,20 +1,4 @@
-"""
-Ablation studies (instruction 4).
 
-Implemented sweeps / toggles:
-  1. trigger_size        — sweep attack.trigger.trigger_size
-  2. poison_rate         — sweep attack.poison_rate
-  3. influence_vs_random — influence-based selection ON vs OFF (random hosts)
-  4. no_spectral         — spectral constraint ON vs OFF (alpha = 0, lowpass off)
-  5. no_orthogonality    — orthogonality term ON vs OFF (mu = 0)
-  6. clean_loss_term     — clean-loss-preservation term ON vs OFF
-  7. margin              — Proposition-2 margin sensitivity (sweep margin_gamma)
-
-Each variant reuses the full pipeline. To keep ablations affordable, variants
-share one pretrained encoder where the pretraining is independent of the ablated
-knob (all of these ablate the *attack*, not pretraining), so we pretrain once and
-re-run only the attack+eval per variant.
-"""
 from __future__ import annotations
 
 import copy

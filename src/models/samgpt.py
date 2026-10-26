@@ -1,19 +1,4 @@
-"""
-SAMGPT victim encoder (TheWebConf'25).
 
-Distinctive mechanism: a set of learnable *structure tokens* per domain, inserted
-into *each layer* of the graph encoder, modifying structure-based aggregation to
-align structural distributions across domains. Feature distributions are aligned
-first (done in data/feature_align.py); structure alignment is these tokens.
-
-We realise "structure tokens modify each layer's aggregation" as a per-domain,
-per-layer additive bias applied to node representations at every layer, routed by
-each node's `domain_id`. Pretraining uses the same contrastive template as the
-other text-free GFMs.
-
-# >>> OFFICIAL-REPO HOOK: replace the additive-token approximation with SAMGPT's
-#     exact token-conditioned aggregation and its dual-prompt downstream head.
-"""
 from __future__ import annotations
 
 from .base import BaseGFM

@@ -1,39 +1,4 @@
-"""
-Step 1 — Target & host selection via influence functions (paper Section 2).
 
-Implements:
-  * G_lambda = G + lambda*I, the damped empirical-Fisher / Gauss-Newton curvature
-    (Section 2.2), accessed matrix-free via Fisher-vector products.
-  * iHVP (inverse-Hessian-vector product) via truncated Neumann series or LiSSA
-    (Section 2.6), which converge for damped, well-conditioned G_lambda.
-  * I(v -> w) = [grad_theta phi(w)]^T (-G_lambda^{-1}) grad_theta l(z_v)   (Section 2.2)
-    computed as a JVP of the embedding map along a = -G_lambda^{-1} g_v.
-  * Self-influence cap C = { v : |I_lambda(v,v)| <= tau_clean }           (Section 2.3)
-  * Global propagation score S(v) = E_{w~D} || I(v->w) ||_2               (Section 2.4)
-
-Instruction (3):
-  * TOP-K selection replaces argmax: `select_targets` returns the top-k nodes of
-    S restricted to C (not a single v*).
-  * FLAG to include/exclude node-to-node (v->w) influence:
-    cfg.influence.use_node_to_node_influence. When False, S(v) := |I_lambda(v,v)|
-    (self-influence magnitude only; no v->w propagation JVP is computed).
-
-K-FAC (Section 2.6): when cfg.influence.kfac_block_diagonal is True the iHVP is
-solved independently per parameter group (per named module) — a block-diagonal
-approximation of the curvature. When False, all parameters form one block.
-
-MEMORY NOTE (see CHANGELOG_OOM_FIX.md): every call below that backward-passes
-through `model.encode()` goes through `_checkpointed_encode()`, which wraps
-the encoder in activation checkpointing. This is *the* fix for the CUDA OOM
-this module used to hit: a 2-layer GCNConv over a 26.8M-edge graph has to
-materialise a dense [num_edges, hidden_dim] message tensor per layer for its
-backward pass (~10-14 GiB each here, for a 44 GiB card) -- that cost is
-intrinsic to doing *any single* backward through this graph, not a product of
-how many times encode() is called. Checkpointing trades that permanent
-storage for a transient recompute inside each individual backward() call, so
-peak memory stays bounded to roughly one such buffer at a time instead of
-accumulating across the ~650 reference/candidate nodes `select()` touches.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass

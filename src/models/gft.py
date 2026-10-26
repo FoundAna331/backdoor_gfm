@@ -1,20 +1,4 @@
-"""
-GFT victim encoder (NeurIPS'24, Zehong-Wang/GFT).
 
-Distinctive mechanism: treat each node's *computation tree* (the unrolled
-message-passing neighbourhood) as a transferable token, quantise trees into a
-shared *tree vocabulary* via Vector Quantization (VQ), and pretrain by tree
-reconstruction. The VQ codebook is what unifies domains: all domains share one
-vocabulary.
-
-We realise this with a GNN encoder producing per-node computation-tree embeddings,
-a VQ codebook of size `vocab_size`, straight-through quantization, and a
-reconstruction decoder. Pretraining loss = reconstruction + VQ codebook/commitment
-losses (the standard VQ-VAE objective), matching GFT's "tree reconstruction".
-
-# >>> OFFICIAL-REPO HOOK: replace with GFT's exact computation-tree construction,
-#     codebook, and cross-task tree-classification head for paper-faithful runs.
-"""
 from __future__ import annotations
 
 from .base import BaseGFM

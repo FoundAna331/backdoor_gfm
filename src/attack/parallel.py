@@ -1,20 +1,4 @@
-"""
-Optional multi-GPU execution of the per-target attack loop.
 
-Targets are independent (each one gets its own spectrum + trigger optimisation),
-so they shard cleanly across GPUs: one worker process per visible GPU, each with
-its own copy of the (frozen) victim model and the graph. Nothing is split *inside*
-a target — the memory fix for the spectral step is in spectral.py; this only buys
-throughput (3 GPUs -> roughly 3x faster over the top-k targets).
-
-Enable with `--parallel-targets` (or runtime.parallel_targets: true) and
-`--gpus 0 1 2`. Requires >1 visible GPU; otherwise the sequential path is used.
-
-Workers are started with the 'spawn' method, so everything handed to them must be
-picklable. The victim models are classes defined inside builder functions (not
-picklable by name), so we ship `state_dict()` + the config and rebuild the model
-inside each worker.
-"""
 from __future__ import annotations
 
 import traceback

@@ -1,6 +1,4 @@
-"""
-Model selection (instruction 1): choose exactly one victim GFM per run.
-"""
+
 from __future__ import annotations
 
 from .gcope import build_gcope

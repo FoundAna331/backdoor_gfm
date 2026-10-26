@@ -1,25 +1,4 @@
-"""
-TCF defense (Rethinking Graph Backdoor Defense: A Topological, Coarse-to-Fine
-Perspective, NeurIPS'25).
 
-TCF screens candidate nodes with three topological signals and then prunes:
-  1. LOCAL SPECTRAL MOMENTS of the ego-graph Laplacian. Trigger subgraphs inject
-     energy at large eigenvalues, so their high-order spectral moments
-     m_k = (1/n) tr(L^k) are inflated. Computed WITHOUT eigendecomposition via
-     repeated sparse mat-vecs (powers of L), so it scales.
-  2. 1-WL STRUCTURAL RARITY. A few rounds of Weisfeiler-Leman colour refinement;
-     nodes carrying rare final colours are structurally anomalous.
-  3. EGO-DENSITY z-score. Edge density of each node's 1-hop ego-net; triggers
-     often over- or under-densify the local neighbourhood.
-A node is flagged if the combined z-score exceeds `tcf_z_threshold`; flagged
-nodes and their incident edges are removed (coarse-to-fine causal pruning).
-
-This is exactly the detector SIB2's Proposition 2 targets: by keeping the
-trigger's high-frequency energy ratio R_spec below the spectral-moment threshold
-(by margin gamma), signal (1) does not fire. The harness reports measured R_spec
-vs this screen so the margin guarantee can be checked empirically (instruction 4:
-margin sensitivity).
-"""
 from __future__ import annotations
 
 from .base import Defense, DefenseReport

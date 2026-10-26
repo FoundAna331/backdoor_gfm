@@ -1,19 +1,4 @@
-"""
-DOMINANT defense (Deep Anomaly Detection on Attributed Networks, Ding et al.).
 
-DOMINANT is a graph autoencoder with a shared GCN encoder and two decoders:
-  * a *structure* decoder that reconstructs the adjacency via inner products of
-    node embeddings, and
-  * an *attribute* decoder that reconstructs node features.
-The per-node anomaly score is a convex combination of the structural and
-attribute reconstruction errors:
-    score(v) = alpha * ||a_v - a_hat_v|| + (1-alpha) * ||x_v - x_hat_v||.
-
-Here we use it as an out-of-distribution screen: nodes with the highest
-reconstruction error (triggers, by construction, are distributional outliers
-unless the attack suppresses that — which the clean-loss term aims to do) are
-flagged and removed along with their edges.
-"""
 from __future__ import annotations
 
 from .base import Defense, DefenseReport

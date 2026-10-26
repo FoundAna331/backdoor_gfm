@@ -1,19 +1,4 @@
-"""
-Step 3 — Orthogonal-subspace persistence anchoring (Section 4).
 
-  * Pretraining-only representation covariance Sigma = Cov_{z~D_pre} phi(z)
-    = V Lambda V^T (Section 4.2); U_k = top-k eigenvectors of Sigma, a label-free
-    proxy for the subspace downstream fine-tuning moves within.
-  * Persistence penalty L_persist = mu * || U_k^T grad_theta phi(delta) ||^2
-    (Section 4.3 / 5.3): pushes the trigger's parameter-gradient footprint into
-    the orthogonal complement of U_k.
-  * Davis-Kahan sin-theta diagnostic (Section 4.5): bounds U_k vs the true
-    downstream subspace; reported, not relied upon.
-
-The progress-barred eigendecomposition for Sigma is small (k x k in embedding
-space), so no bar is needed here; the slow eigendecomposition is the graph
-Laplacian one in spectral.py.
-"""
 from __future__ import annotations
 
 

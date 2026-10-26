@@ -1,18 +1,4 @@
-"""
-RIGBD defense (Robustness-Inspired Graph Backdoor Defense).
 
-Core idea: a poisoned node's prediction is abnormally *robust* to random edge
-perturbations around its trigger (the trigger dominates its representation),
-whereas a clean node's prediction is more sensitive. RIGBD repeatedly drops
-edges at random and measures each node's prediction stability; nodes whose
-representation barely moves under many random edge drops are flagged as likely
-poisoned and purified.
-
-Implementation: over `num_rounds`, drop `drop_rate` of edges, recompute
-embeddings with the provided encoder (or a feature-propagation proxy if no model
-is given), and record each node's embedding variance. Low-variance (overly
-stable) nodes are flagged.
-"""
 from __future__ import annotations
 
 from .base import Defense, DefenseReport

@@ -1,13 +1,4 @@
-"""
-Trigger parameterisation (Section 3.2): an additive node-feature perturbation
-`delta` on the injected trigger node(s) plus a bounded set of added edges `ΔA`
-connecting the trigger to the target's neighbourhood.
 
-The feature perturbation is the differentiable quantity optimised under the
-spectral + orthogonality + effectiveness losses. Edge additions are chosen by
-influence-ranked greedy selection under the budget tau (Section 5.4) and then
-held fixed during the gradient refinement of delta.
-"""
 from __future__ import annotations
 
 # (dataclass import not needed here)

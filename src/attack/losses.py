@@ -1,17 +1,4 @@
-"""
-Complete loss functions (paper Section 5).
 
-L_eff     = - sim( phi(G'_v*), e_y* )                                   (5.1)
-L_stealth = alpha * R_spec(delta) + beta * ||delta||^2
-            + gamma * | L_pre(theta; A+ΔA) - L_pre(theta; A) |          (5.2)
-L_persist = mu * || U_k^T grad_theta phi(delta) ||^2                    (5.3)
-Joint     = L_eff + L_stealth + L_persist                               (5.4)
-
-Ablation switches (instruction 4) are honoured here:
-  * no spectral constraint     -> alpha = 0 (and hard low-pass disabled upstream)
-  * no orthogonality term       -> mu = 0
-  * clean-loss-preservation off -> gamma term dropped (use_clean_loss_term=False)
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass

@@ -1,0 +1,24 @@
+data:
+  train_datasets: ["cora"]
+  test_datasets: ["citeseer"]
+  align_dim: 32
+model:
+  name: "gcope"
+  hidden_dim: 32
+  num_layers: 2
+  pretrain_epochs: 5
+attack:
+  influence:
+    top_k_targets: 2
+    reference_sample_size: 32
+    neumann_terms: 10
+  spectral:
+    eig_max_nodes: 4000
+  orthogonal:
+    top_k_subspace: 8
+    cov_sample_size: 128
+  trigger:
+    opt_steps: 10
+runtime:
+  gpus: []
+  run_name: "sib2_smoke"

@@ -1,0 +1,7 @@
+model:
+  name: "gcope"
+  backbone: "gcn"
+  num_coordinators_per_domain: 1
+  recon_weight: 0.2
+runtime:
+  run_name: "sib2_gcope"

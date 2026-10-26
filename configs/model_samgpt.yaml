@@ -1,0 +1,6 @@
+model:
+  name: "samgpt"
+  backbone: "gcn"
+  num_structure_tokens: 4
+runtime:
+  run_name: "sib2_samgpt"

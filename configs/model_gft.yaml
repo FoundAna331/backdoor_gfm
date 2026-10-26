@@ -1,0 +1,7 @@
+model:
+  name: "gft"
+  backbone: "gcn"
+  vocab_size: 128
+  vq_commitment: 0.25
+runtime:
+  run_name: "sib2_gft"

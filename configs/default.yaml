@@ -1,0 +1,87 @@
+# Default SIB2-Backdoor configuration.
+# Precedence: dataclass defaults < this file < --config < --set/CLI flags.
+#, "computers", "reddit"
+data:
+  train_datasets: ["ogbn-arxiv", "computers", "reddit"]          # default: pretrain on OGB-ArXiv
+  test_datasets:  ["cora", "citeseer", "photo", "flickr"]
+  root: "./datasets"
+  align_dim: 100
+  align_method: "svd"
+  undirected: true
+  add_self_loops: false
+
+model:
+  name: "gcope"                           # {gcope, samgpt, gft} -- one at a time
+  backbone: "gcn"                         # {gcn, gat, fagcn}
+  hidden_dim: 128
+  num_layers: 2
+  dropout: 0.5
+  pretrain_epochs: 100
+  pretrain_lr: 0.0001
+  weight_decay: 0.0005
+
+attack:
+  target_label: 0
+  scenario: 2                             # target-controlled (harder)
+  poison_rate: 0.05
+  influence:
+    use_node_to_node_influence: true      # instruction 3: flag to include/exclude
+    top_k_targets: 10                     # instruction 3: top-k replaces argmax
+    damping: 0.01
+    ihvp_method: "neumann"                # {neumann, lissa}
+    neumann_terms: 50
+    self_influence_cap_percentile: 50.0
+    reference_sample_size: 256
+    kfac_block_diagonal: true
+  spectral:
+    k_hop: 2
+    high_freq_fraction: 0.5
+    alpha_spectral: 1.0
+    hard_lowpass_projection: true
+    eig_max_nodes: 12000            # dense GPU eigh up to this size
+    eig_truncated_k: 512
+    max_subgraph_nodes: 12000       # cap k-hop ball size (0 = no cap)
+    eig_method: "auto"              # auto | dense | scipy | lobpcg
+    eig_tol: 0.0001
+    exclude_virtual_nodes: true     # GCOPE coordinators touch every node -> excluded
+  orthogonal:
+    top_k_subspace: 64
+    mu_persist: 1.0
+    cov_sample_size: 2048
+  trigger:
+    trigger_size: 100
+    max_edges: 30
+    feat_norm_budget: 1.0
+    beta_feat: 0.1
+    gamma_clean: 1.0
+    use_clean_loss_term: true
+    margin_gamma: 0.05
+    opt_steps: 200
+    opt_lr: 0.01
+  pretrain_poison:                        # NEW: implant the trigger into the pretrained encoder
+    enabled: true
+    steps: 300
+    lr: 0.001
+    batch_nodes: 2048
+    bd_weight: 1.0
+    keep_weight: 1.0
+    keep_nodes: 8192
+    pretrain_weight: 0.0
+    anchor_mode: "orthogonal"             # {orthogonal, target_mean}
+    anchor_scale: 3.0
+
+defense:
+  name: "none"                            # {none, prune, dominant, rigbd, tcf}
+  prune_threshold: 0.1
+  rigbd_drop_rate: 0.2
+  rigbd_num_rounds: 20
+  dominant_alpha: 0.5
+  dominant_epochs: 100
+  tcf_z_threshold: 2.0
+
+runtime:
+  gpus: [0]                               # instruction 8: multi-GPU selectable
+  seed: 42
+  output_dir: "./runs"
+  run_name: "sib2_default"
+  verbose: true
